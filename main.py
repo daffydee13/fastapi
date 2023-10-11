@@ -1,10 +1,10 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
-app = FastAPI()
+app = FastAPI(title="Databricks CRUD")
+app.mount("/ui", StaticFiles(directory="ui"), name="ui")
 
-#domain where this api is hosted for example : localhost:5000/docs to see swagger documentation automagically generated.
-
-
-@app.get("/")
-def home():
-    return {"message":"Hello TutLinks.com"}
+@app.get("/", response_class=FileResponse)
+async def get_index_html():
+    return "ui/index.html"
